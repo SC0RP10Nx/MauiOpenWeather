@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiOpenWeather.ViewModels"
+             x:Class="MauiOpenWeather.MainPage"
+             x:DataType="local:MainViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBg}, Dark={StaticResource DarkBg}}">
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <!-- ========== Headbereich ============ -->
+
+            <Grid HeightRequest="420">
+
+                <!-- Bild -->
+                <Image Source ="dandelions.jpg" Aspect="AspectFill"/>
+
+                <!-- Hintergrundverlauf -->
+                <BoxView>
+                    <BoxView.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Offset="0.00" Color="#99000000" />
+                            <GradientStop Offset="0.25" Color="#00000000"/>
+                            <GradientStop Offset="0.50" Color="{AppThemeBinding Light=#00F5EFE7, Dark=#000C0D0F}"/>
+                            <GradientStop Offset="1.00" Color="{AppThemeBinding Light={StaticResource LightBg},Dark={StaticResource DarkBg}}"/>
+                        </LinearGradientBrush>
+                    </BoxView.Background>
+                </BoxView>
+
+                <!-- TitleBereich -->
+                <Grid VerticalOptions="Start" Padding="20,12" ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                        <Label Text="{Binding Current.Location,TargetNullValue='BFW Leipzig'}"
+                           TextColor="White" FontSize="17" FontAttributes="Bold"/>
+                        <Label Text="{Binding UpdatedText}" TextColor="#E6FFFFFF" FontSize="13" ></Label>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="1"
+                        Text="◐" FontSize="22"
+                        WidthRequest="48" HeightRequest="48" CornerRadius="24" Padding="0"
+                        BackgroundColor="#66000000" TextColor="White"
+                        BorderColor="#55FFFFFF" BorderWidth="1"
+                        SemanticProperties.Description="Hell oder dunkel umschalten"
+                        Clicked="OnThemeToggleClicked"/>
+                </Grid>
+
+                <!-- Bottom-Bereich -->
+                <Grid VerticalOptions="End" Padding="20,0,20,8" ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout VerticalOptions="End">
+                        <Label Text="{Binding SceneLabel}" Style="{StaticResource Caption}"/>
+                        <Label Text="{Binding Current.Temperature,StringFormat='{0:F1}°'}" 
+                           Style="{StaticResource StandardLabel}"
+                           FontSize="80"/>
+                    </VerticalStackLayout>
+
+                    <!-- Windkompass -->
+                    <Grid Grid.Column="1" WidthRequest="104" HeightRequest="104" VerticalOptions="End" Margin="0,0,0,12">
+                        <Border StrokeShape="Ellipse" StrokeThickness="1"
+                            Stroke="{AppThemeBinding Light={StaticResource LightLine},Dark={StaticResource DarkLine}}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource LightSurface},Dark={StaticResource DarkSurface}}"/>
+                        <Label Text="N" Style="{StaticResource Caption}" FontSize="11" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,4,0,0"/>
+                        <Label Text="S" Style="{StaticResource Caption}" FontSize="11" HorizontalOptions="Center" VerticalOptions="End" Margin="0,4,0,0"/>
+                        <Label Text="W" Style="{StaticResource Caption}" FontSize="11" HorizontalOptions="Start" Margin="7,0,0,0"/>
+                        <Label Text="O" Style="{StaticResource Caption}" FontSize="11" HorizontalOptions="End" Margin="0,0,7,0"/>
+
+                        <!-- Pfeil-Richtung -->
+                        <Label Text="↑" FontSize="56"
+                           TextColor="{AppThemeBinding Light={StaticResource LightAccent}, Dark={StaticResource DarkAccent}}"
+                           HorizontalOptions="Center" VerticalOptions="Center"
+                           Rotation="{Binding WindArrowRotation}" />
+                        <!-- Richtung in der Mitte -->
+                        <Border HorizontalOptions="Center" VerticalOptions="Center"
+                            Padding="6,2" StrokeThickness="0" StrokeShape="RoundRectangle 4"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource LightSurface}, Dark={StaticResource DarkSurface}}">
+                            <Label Text="{Binding WindDirectionDe}" Style="{StaticResource Value}" FontSize="13" HorizontalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>
